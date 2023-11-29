@@ -14,21 +14,18 @@ return new class extends Migration
         Schema::create('restaurants', function (Blueprint $table) {
             $table->id();
             $table->string('restaurant_name');
+            $table->text('description');
+            $table->string('cuisine');  
             $table->string('address');
-            $table->string('phone');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('city');
+            $table->string('zip_code');
             $table->rememberToken();
             $table->timestamps();
         });
-
-        Schema::table('restaurants', function (Blueprint $table) {
-            $table->unsignedBigInteger('admin_id');
-            $table->unsignedBigInteger('table_id');
-
-            $table->foreign('table_id')->references('id')->on('tables');
-            $table->foreign('admin_id')->references('id')->on('admin');
+        Schema::table('restaurants', function (Blueprint $table){
+            $table->unsignedBigInteger('owner_id');
+         
+            $table->foreign('owner_id')->references('id')->on('restaurant_owners');
         });
     }
 

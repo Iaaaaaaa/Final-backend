@@ -12,11 +12,23 @@ class RestaurantController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index1(Request $request)
     {
-        //
+        {
+            $restaurant = Restaurant::select('*')
+                                    ->join('restaurant_owners', 'restaurant_owners.id', '=', 'restaurants.id');
+    
+    
+            return $restaurant->get();
+        }
+
+        return Restaurant::all();
     }
 
+    public function index2()
+    {
+        return Restaurant::all();
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -42,23 +54,21 @@ class RestaurantController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return Restaurant::findOrFail($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(RestaurantRequest $request, string $id)
     {
-        //
+        $validated = $request->validated();
+
+        $restaurant = Restaurant::findOrFail($id);
+
+        $restaurant->update($validated);
+
+        return $restaurant;
     }
 
     /**
@@ -66,6 +76,10 @@ class RestaurantController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $restaurant = Restaurant::findOrFail($id);
+
+        $restaurant->delete();
+
+        return $restaurant;
     }
 }

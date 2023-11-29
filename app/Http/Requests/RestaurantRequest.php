@@ -23,9 +23,12 @@ class RestaurantRequest extends FormRequest
     {
         return [
             'restaurant_name'      => 'required|string|max:255',
+            'description'          => 'string|max:255',
+            'cuisine'              => 'required|string|max:255',
             'address'              => 'required|string|max:255',
-            'phone'                => 'required|string|max:255',
-            'email'                => 'required|string|max:255',
+            'city'                 => 'required|string|max:255',
+            'zip_code'             => 'required|string|max:255',
+            'owner_id'             => 'required|exists:restaurant_owners,id|integer',
         ];
     }
 }

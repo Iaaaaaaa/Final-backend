@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class restaurant extends Model
+class Restaurant extends Model
 {
     use HasFactory;
  /**
@@ -20,7 +20,7 @@ class restaurant extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'restaurant_id';
+    protected $primaryKey = 'id';
 
      /**
      * The attributes that are mass assignable.
@@ -29,9 +29,13 @@ class restaurant extends Model
      */
     protected $fillable = [
         'restaurant_name',
+        'description',
+        'cuisine',
         'address',
-        'phone',
-        'email',
+        'city',
+        'zip_code',
+        'owner_id'
+        
     ];
 
 }

@@ -23,20 +23,23 @@ class CustomerRequest extends FormRequest
     {
         if (request()->routeIs('customer.login')){
             return [
-                'email'      => 'required|string|email|max:255',
+                'username'      => 'required|string|max:255',
                 'password'      => 'required|min:8',
             ];
         }
         else if( request()->routeIs('customer.store') ) {
             return [
-                'name'      => 'required|string|max:255',
+                'firstname'      => 'required|string|max:255',
+                'lastname'      => 'required|string|max:255',
                 'email'     => 'required|string|email|unique:App\Models\Customer,email|max:255',
+                'username'      => 'required|string|max:255',
                 'password'  => 'required|min:8',
             ];
         }
        else if (request()->routeIs('customer.update')){
         return [
-            'name'      => 'required|string|max:255'
+            'firstname'      => 'required|string|max:255',
+            'lastname'      => 'required|string|max:255'
         ];
        }
        else if (request()->routeIs('customer.email')){

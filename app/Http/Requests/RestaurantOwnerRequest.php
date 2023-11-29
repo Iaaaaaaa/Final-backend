@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminRequest extends FormRequest
+class RestaurantOwnerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,35 +21,38 @@ class AdminRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (request()->routeIs('admin.login')){
+        if (request()->routeIs('restaurantowner.login')){
             return [
-                'email'      => 'required|string|email|max:255',
+                'username'      => 'required|string|max:255',
                 'password'      => 'required|min:8',
             ];
         }
-        else if( request()->routeIs('admin.store') ) {
+        else if( request()->routeIs('restaurantowner.store') ) {
             return [
-                'name'      => 'required|string|max:255',
-                'email'     => 'required|string|email|unique:App\Models\Admin,email|max:255',
+                'firstname'      => 'required|string|max:255',
+                'lastname'      => 'required|string|max:255',
+                'email'     => 'required|string|email|unique:App\Models\Customer,email|max:255',
+                'username'      => 'required|string|max:255',
                 'password'  => 'required|min:8',
             ];
         }
-       else if (request()->routeIs('admin.update')){
+       else if (request()->routeIs('restaurantowner.update')){
         return [
-            'name'      => 'required|string|max:255'
+            'firstname'      => 'required|string|max:255',
+            'lastname'      => 'required|string|max:255'
         ];
        }
-       else if (request()->routeIs('admin.email')){
+       else if (request()->routeIs('restaurantowner.email')){
         return [
             'email'      => 'required|string|email|max:255'
         ];
        }
-       else if (request()->routeIs('admin.password')){
+       else if (request()->routeIs('restaurantowner.password')){
         return [
             'password'      => 'required|confirmed|min:8'
         ];
        }
-       else if (request()->routeIs('admin.image') || request()->routeIs('profile.image'))    {
+       else if (request()->routeIs('restaurantowner.image') || request()->routeIs('profile.image'))    {
         return [
             'image'      => 'required|image|mimes:jpg,bmp,png|max:2048'
         ];

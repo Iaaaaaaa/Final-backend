@@ -5,30 +5,30 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Admin;
+use App\Models\RestaurantOwner;
 use App\Models\Customer;
 use App\http\Requests\UserRequest;
-use App\http\Requests\AdminRequest;
+use App\http\Requests\RestaurantOwnerRequest;
 use App\http\Requests\CustomerRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function Adminlogin(AdminRequest $request)
+    public function RestaurantOwnerlogin(RestaurantOwnerRequest $request)
     {
         
-        $admin = Admin::where('email', $request->email)->first();
+        $restaurantowner = RestaurantOwner::where('username', $request->username)->first();
      
-        if (! $admin || ! Hash::check($request->password, $admin->password)) {
+        if (! $restaurantowner || ! Hash::check($request->password, $restaurantowner->password)) {
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+                'username' => ['The provided credentials are incorrect.'],
             ]);
         }
      
         $response = [
-            'admin' => $admin,
-            'token' => $admin->createToken($request->email)->plainTextToken
+            'restaurantowner' => $restaurantowner,
+            'token' => $restaurantowner->createToken($request->username)->plainTextToken
         ];
 
         return $response;
@@ -36,17 +36,17 @@ class AuthController extends Controller
     public function Customerlogin(CustomerRequest $request)
     {
         
-        $customer = Customer::where('email', $request->email)->first();
+        $customer = Customer::where('username', $request->username)->first();
      
         if (! $customer || ! Hash::check($request->password, $customer->password)) {
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+                'username' => ['The provided credentials are incorrect.'],
             ]);
         }
      
         $response = [
             'customer' => $customer,
-            'token' => $customer->createToken($request->email)->plainTextToken
+            'token' => $customer->createToken($request->username)->plainTextToken
         ];
 
         return $response;
