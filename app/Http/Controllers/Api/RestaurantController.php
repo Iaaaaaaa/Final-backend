@@ -12,18 +12,16 @@ class RestaurantController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index1(Request $request)
+    public function index1()
     {
-        {
-            $restaurant = Restaurant::select('*')
-                                    ->join('restaurant_owners', 'restaurant_owners.id', '=', 'restaurants.id');
+        $restaurant = Restaurant::select('restaurants.*')
+            ->join('restaurant_owners', 'restaurant_owners.id', '=', 'restaurants.owner_id')
+            ->get();
     
-    
-            return $restaurant->get();
-        }
-
-        return Restaurant::all();
+        return $restaurant;
     }
+    
+    
 
     public function index2()
     {
@@ -41,7 +39,9 @@ class RestaurantController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(RestaurantRequest $request)
-    {
+    {   
+
+
         $validated = $request->validated();
 
         $restaurant = Restaurant::create($validated);

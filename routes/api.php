@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RestaurantOwnerController;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\RestaurantController;
+use App\Http\Controllers\Api\CustomerReservationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -55,15 +56,23 @@ Route::middleware(['auth:sanctum'])->group(function (){
         Route::put('/customer/{id}',                'update')->name('customer.update');
         Route::put('/customer/email/{id}',          'email')->name('customerr.email');
         Route::put('/customer/password/{id}',       'password')->name('customer.password');
-        Route::put('/customer/image/{id}',       'image')->name('customer.image');
+        Route::put('/customer/image/{id}',          'image')->name('customer.image');
         Route::delete('/customer/{id}',             'destroy');
 
     Route::controller(RestaurantController::class)->group(function () {
-        Route::get('/restaurant',             'index2');
+        Route::get('/restaurant2',             'index2');
         Route::get('/restaurant/{id}',          'show');
     });    
     
     });
- 
+    Route::controller(CustomerReservationController::class)->group(function () {
+        Route::get('/customerreservation',                     'index');
+        Route::get('/customerreservation/{id}',                'show');
+        Route::put('/customerreservation/{id}',                'update');
+        Route::post('/customerreservation',                    'store');
+        Route::delete('/customerreservation/{id}',             'destroy');
+    
+    });
+    
 });
 
