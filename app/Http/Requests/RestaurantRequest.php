@@ -21,6 +21,12 @@ class RestaurantRequest extends FormRequest
      */
     public function rules(): array
     {
+        if(request()->routeIs('restaurant.image')){
+            return[
+            'image'      => 'required|image|mimes:jpg,bmp,png|max:2048',
+            ];
+        }
+        else
         return [
             'restaurant_name'      => 'required|string|max:255',
             'description'          => 'string|max:255',

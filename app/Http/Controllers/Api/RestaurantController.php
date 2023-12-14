@@ -5,20 +5,32 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\http\Requests\RestaurantRequest;
+use App\http\Requests\RestaurantOwnerRequest;
 use App\Models\Restaurant;
+use App\Models\RestaurantOwner;
+use Illuminate\Support\Facades\Storage;
 
 class RestaurantController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index1()
+
+
+    public function index1(String $id)
     {
-        $restaurant = Restaurant::select('restaurants.*')
-            ->join('restaurant_owners', 'restaurant_owners.id', '=', 'restaurants.owner_id')
-            ->get();
+        $restaurantOwner = RestaurantOwner::findOrFail($id);
     
-        return $restaurant;
+        $restaurants = Restaurant::select('restaurants.*')
+            ->join('restaurant_owners', 'restaurant_owners.id', '=', 'restaurants.owner_id');
+    
+        if ($restaurantOwner) {
+            $restaurants->where('restaurants.owner_id', $restaurantOwner->id);
+            return $restaurants->get();
+        }
+    
+        // Return all restaurants if the owner is not found or no ID provided
+        return Restaurant::all();
     }
     
     
@@ -40,7 +52,6 @@ class RestaurantController extends Controller
      */
     public function store(RestaurantRequest $request)
     {   
-
 
         $validated = $request->validated();
 
@@ -79,6 +90,21 @@ class RestaurantController extends Controller
         $restaurant = Restaurant::findOrFail($id);
 
         $restaurant->delete();
+
+        return $restaurant;
+    }
+
+    public function image(RestaurantRequest $request, string $id)
+    {
+        $restaurant = Restaurant::findOrFail($id);
+
+        if (!is_null($restaurant->image)){
+            Storage::disk('public')->delete($restaurant->image);
+        };
+
+        $restaurant->image = $request->file('image')->storePublicly('images', 'public');
+
+        $restaurant->save();
 
         return $restaurant;
     }

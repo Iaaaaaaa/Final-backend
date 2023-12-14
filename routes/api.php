@@ -41,11 +41,12 @@ Route::middleware(['auth:sanctum'])->group(function (){
         Route::delete('/restaurantowner/{id}',             'destroy');
 
     Route::controller(RestaurantController::class)->group(function () {
-        Route::get('/restaurant',             'index1');
+        Route::get('/restaurantowned/{id}',             'index1');
         Route::get('/restaurant/{id}',          'show');
         Route::put('/restaurant/{id}',        'update');
         Route::delete('/restaurant/{id}',     'destroy');
         Route::post('/restaurant',            'store');
+        Route::put('/restaurant/image/{id}',       'image')->name('restaurant.image');
           
     });
     
@@ -67,6 +68,8 @@ Route::middleware(['auth:sanctum'])->group(function (){
     });
     Route::controller(CustomerReservationController::class)->group(function () {
         Route::get('/customerreservation',                     'index');
+        Route::get('/customerreservationn/{id}',                     'indexrestaurant');
+        Route::get('/customerreservationnn/{id}',                     'indexcustomer');
         Route::get('/customerreservation/{id}',                'show');
         Route::put('/customerreservation/{id}',                'update');
         Route::post('/customerreservation',                    'store');

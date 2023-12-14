@@ -27,9 +27,9 @@ class CustomerReservationRequest extends FormRequest
             'status'          => 'string|max:255',
             'reserve_date'              => 'required|string|max:255',
             'reserve_time'              => 'required|string|max:255',
-            'request_date'                 => 'required|string|max:255',
+            'request_date'                 => 'string|max:255',
             'time_of_day'             => 'required|string|max:255',
-            'special_request'             => 'required|string|max:255',
+            'special_request'             => 'nullable|string|max:255',
             'restaurant_id'         => 'required|exists:restaurants,id|integer',
             'customer_id'           => 'required|exists:customers,id|integer'
         ];

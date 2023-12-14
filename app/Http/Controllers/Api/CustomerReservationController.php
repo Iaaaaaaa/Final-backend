@@ -5,11 +5,45 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CustomerReservation;
+use App\Models\Restaurant;
+use App\Models\Customer;
 use App\http\Requests\CustomerReservationRequest;
 
 class CustomerReservationController extends Controller
 {
     
+    public function indexrestaurant(String $id)
+    {
+        $restaurant = Restaurant::findOrFail($id);
+    
+        $reservation = CustomerReservation::select('customer_reservations.*')
+            ->join('restaurants', 'restaurants.id', '=', 'customer_reservations.restaurant_id');
+    
+        if ($restaurant) {
+            $reservation->where('customer_reservations.restaurant_id', $restaurant->id);
+            return $reservation->get();
+        }
+    
+        // Return all restaurants if the owner is not found or no ID provided
+        return CustomerReservation::all();
+    }
+    public function indexcustomer(String $id)
+
+    {
+        $customer = Customer::findOrFail($id);
+    
+        $reservation = CustomerReservation::select('customer_reservations.*')
+            ->join('customers', 'customers.id', '=', 'customer_reservations.customer_id');
+    
+        if ($customer) {
+            $reservation->where('customer_reservations.customer_id', $customer->id);
+            return $reservation->get();
+        }
+    
+        // Return all restaurants if the owner is not found or no ID provided
+        return CustomerReservation::all();
+    }
+
 
     public function index()
     {

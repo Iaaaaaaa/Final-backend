@@ -20,7 +20,7 @@ class RestaurantOwner extends Authenticatable
         'firstname',
         'lastname',
         'email',
-        'firstname',
+        'username',
         'password',
     ];
 

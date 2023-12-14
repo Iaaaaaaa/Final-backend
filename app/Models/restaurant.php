@@ -35,7 +35,6 @@ class Restaurant extends Model
         'city',
         'zip_code',
         'owner_id'
-        
     ];
 
 }
