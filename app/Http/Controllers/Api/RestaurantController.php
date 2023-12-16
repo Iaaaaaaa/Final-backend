@@ -33,7 +33,6 @@ class RestaurantController extends Controller
         return Restaurant::all();
     }
     
-    
 
     public function index2()
     {
@@ -67,7 +66,6 @@ class RestaurantController extends Controller
     {
         return Restaurant::findOrFail($id);
     }
-
     /**
      * Update the specified resource in storage.
      */
@@ -80,8 +78,9 @@ class RestaurantController extends Controller
         $restaurant->update($validated);
 
         return $restaurant;
-    }
+    }    
 
+    
     /**
      * Remove the specified resource from storage.
      */

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CustomerReservation;
 use App\Models\Restaurant;
+use App\Models\RestaurantOwner;
 use App\Models\Customer;
 use App\http\Requests\CustomerReservationRequest;
 
@@ -14,19 +15,21 @@ class CustomerReservationController extends Controller
     
     public function indexrestaurant(String $id)
     {
-        $restaurant = Restaurant::findOrFail($id);
+        $restaurantowner = RestaurantOwner::findOrFail($id);
     
         $reservation = CustomerReservation::select('customer_reservations.*')
-            ->join('restaurants', 'restaurants.id', '=', 'customer_reservations.restaurant_id');
+            ->join('restaurants', 'restaurants.id', '=', 'customer_reservations.restaurant_id')
+            ->join('restaurant_owners', 'restaurant_owners.id', '=', 'restaurants.owner_id');
     
-        if ($restaurant) {
-            $reservation->where('customer_reservations.restaurant_id', $restaurant->id);
+        if ($restaurantowner) {
+            $reservation->where('restaurants.owner_id', $restaurantowner->id);
             return $reservation->get();
         }
     
         // Return all restaurants if the owner is not found or no ID provided
         return CustomerReservation::all();
     }
+    
     public function indexcustomer(String $id)
 
     {
@@ -90,6 +93,18 @@ class CustomerReservationController extends Controller
         $reservation->update($validated);
 
         return $reservation;
+    }
+
+    public function status(CustomerReservationRequest $request, string $id)
+    {
+        $validated = $request->validated(); 
+    
+        $reservation = CustomerReservation::findOrFail($id);
+    
+        $reservation->update(['status' => $validated['status']]);
+    
+        return $reservation;
+    
     }
 
     /**

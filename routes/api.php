@@ -74,6 +74,7 @@ Route::middleware(['auth:sanctum'])->group(function (){
         Route::put('/customerreservation/{id}',                'update');
         Route::post('/customerreservation',                    'store');
         Route::delete('/customerreservation/{id}',             'destroy');
+        Route::put('/reservation/status/{id}',       'status')->name('reservation.status');
     
     });
     
