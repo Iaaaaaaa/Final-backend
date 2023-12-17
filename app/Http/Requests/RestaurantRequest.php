@@ -25,6 +25,10 @@ class RestaurantRequest extends FormRequest
             return[
             'image'      => 'required|image|mimes:jpg,bmp,png|max:2048',
             ];
+        }if(request()->routeIs('restaurant.image')) {
+            return [
+                'id' => 'required|exists:restaurants,id',
+            ];
         }
         else
         return [

@@ -47,6 +47,7 @@ Route::middleware(['auth:sanctum'])->group(function (){
         Route::delete('/restaurant/{id}',     'destroy');
         Route::post('/restaurant',            'store');
         Route::put('/restaurant/image/{id}',       'image')->name('restaurant.image');
+        Route::get('/restaurant/fetchimage/{id}', 'fetchRestaurantImage')->name('restaurant.fetchimage');
           
     });
     

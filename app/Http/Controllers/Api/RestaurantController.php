@@ -10,6 +10,7 @@ use App\Models\Restaurant;
 use App\Models\RestaurantOwner;
 use Illuminate\Support\Facades\Storage;
 
+
 class RestaurantController extends Controller
 {
     /**
@@ -107,4 +108,24 @@ class RestaurantController extends Controller
 
         return $restaurant;
     }
+
+    public function fetchRestaurantImage(string $id)
+    {
+        $restaurant = Restaurant::findOrFail($id);
+    
+        if ($restaurant->image) {
+            $imagePath = storage_path('app/public/' . $restaurant->image);
+    
+            if (file_exists($imagePath)) {
+                return response()->file($imagePath);
+            } else {
+                return response()->json(['message' => 'Image not found for this restaurant.']);
+            }
+        }
+    
+        return response()->json(['message' => 'Image not found for this restaurant.']);
+    }
+    
+    
+    
 }

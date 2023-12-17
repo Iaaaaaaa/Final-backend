@@ -29,6 +29,7 @@ class CustomerReservationRequest extends FormRequest
         return [
             'num_tables'      => 'required|string|max:255',
             'num_guests'          => 'string|max:255',
+            'status'      => 'string|max:255',
             'reserve_date'              => 'required|string|max:255',
             'reserve_time'              => 'required|string|max:255',
             'request_date'                 => 'string|max:255',
